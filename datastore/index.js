@@ -9,8 +9,16 @@ var items = {};
 
 exports.create = (text, callback) => {
   var id = counter.getNextUniqueId((err, something) => {
+    if (err) {
+      callback(err);
+    } else {
+      fs.writeFile('directory', text, (err) => {
 
+      });
+    }
   });
+
+  // use fs.writefile string the directory id   / text/ err
   items[id] = text;
   callback(null, { id, text });
 };

@@ -46,10 +46,16 @@ exports.getNextUniqueId = (callback) => {
   // readCounter takes in a callback
   // callback ERROR FIRST, then next parameter is num (counter)
   readCounter((err, num) => {
+    if (err) {
+      console.error(err);
+    }
     // increment num because we are writing another file
     num++;
     // takes in the num (counter) and a callback
     writeCounter(num, (err, counterString) =>{
+      if (err) {
+        console.error(err);
+      }
       callback(err, counterString);
     });
   });
