@@ -62,6 +62,8 @@ exports.getNextUniqueId = (callback) => {
 
 };
 
+// I believe the callback passed in above is what actually writes the number
+
 
 
 // Configuration -- DO NOT MODIFY //////////////////////////////////////////////

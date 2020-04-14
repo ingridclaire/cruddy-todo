@@ -8,19 +8,23 @@ var items = {};
 // Public API - Fix these CRUD functions ///////////////////////////////////////
 
 exports.create = (text, callback) => {
-  var id = counter.getNextUniqueId((err, something) => {
+  counter.getNextUniqueId((err, counterString) => {
     if (err) {
       callback(err);
     } else {
-      fs.writeFile('directory', text, (err) => {
-
+      fs.writeFile(`./datastore/data/${counterString.toString()}.txt`, text, (err) => {
+        if (err) {
+          callback(err);
+        }
+        //we commented out the line below, and our todos were still added to data file. What is this callback doing?
+        callback(text);
       });
     }
   });
 
   // use fs.writefile string the directory id   / text/ err
-  items[id] = text;
-  callback(null, { id, text });
+  // items[id] = text;
+  // callback(null, { id, text });
 };
 
 exports.readAll = (callback) => {
