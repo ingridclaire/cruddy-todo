@@ -8,30 +8,41 @@ var items = {};
 // Public API - Fix these CRUD functions ///////////////////////////////////////
 
 exports.create = (text, callback) => {
-  counter.getNextUniqueId((err, counterString) => {
+  counter.getNextUniqueId((err, id) => {
     if (err) {
       callback(err);
+      console.log('error occurred when getNextUniqueID was invoked', err);
     } else {
-      fs.writeFile(`./datastore/data/${counterString.toString()}.txt`, text, (err) => {
+      var pathName = path.join(exports.dataDir, `${id}.txt`);
+      fs.writeFile(pathName, text, (err) => {
         if (err) {
-          callback(err);
+          throw err;
         }
         //we commented out the line below, and our todos were still added to data file. What is this callback doing?
-        callback(text);
+        callback(null, { id, text });
+
       });
     }
   });
-
-  // use fs.writefile string the directory id   / text/ err
-  // items[id] = text;
-  // callback(null, { id, text });
 };
 
 exports.readAll = (callback) => {
-  var data = _.map(items, (text, id) => {
-    return { id, text };
+  let path = exports.dataDir;
+  fs.readdir(path, (err, items) => {
+    if (err) {
+      console.error('error when defining readAll and invoking readdir', err);
+    } else {
+
+      var data = _.map(items, (text, id) => {
+        // format this
+        return { id, text };
+      });
+
+      callback(null, data);
+    }
+
   });
-  callback(null, data);
+
 };
 
 exports.readOne = (id, callback) => {

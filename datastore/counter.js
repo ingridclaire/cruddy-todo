@@ -29,7 +29,7 @@ const readCounter = (callback) => {
 
 const writeCounter = (count, callback) => {
   // gets the zeropadded number
-  counterString = zeroPaddedNumber(count);
+  var counterString = zeroPaddedNumber(count);
   // fs writefile ...first arg = file we write to---  arg2 = the data we write--- arg3 = callback
   fs.writeFile(exports.counterFile, counterString, (err) => {
     if (err) {
