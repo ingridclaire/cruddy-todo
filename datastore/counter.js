@@ -16,6 +16,8 @@ const zeroPaddedNumber = (num) => {
 };
 
 const readCounter = (callback) => {
+  //fs.readFile is being invoked with 2 arguments: the file we want to read and an err first function
+  //the function being passed into readFile takes 2 args: err and the wanted data from the file we are reading
   fs.readFile(exports.counterFile, (err, fileData) => {
     if (err) {
       callback(null, 0);
@@ -26,7 +28,9 @@ const readCounter = (callback) => {
 };
 
 const writeCounter = (count, callback) => {
-  var counterString = zeroPaddedNumber(count);
+  // gets the zeropadded number
+  counterString = zeroPaddedNumber(count);
+  // fs writefile ...first arg = file we write to---  arg2 = the data we write--- arg3 = callback
   fs.writeFile(exports.counterFile, counterString, (err) => {
     if (err) {
       throw ('error writing counter');
@@ -39,9 +43,12 @@ const writeCounter = (count, callback) => {
 // Public API - Fix this function //////////////////////////////////////////////
 
 exports.getNextUniqueId = (callback) => {
-
+  // readCounter takes in a callback
+  // callback ERROR FIRST, then next parameter is num (counter)
   readCounter((err, num) => {
+    // increment num because we are writing another file
     num++;
+    // takes in the num (counter) and a callback
     writeCounter(num, (err, counterString) =>{
       callback(err, counterString);
     });
